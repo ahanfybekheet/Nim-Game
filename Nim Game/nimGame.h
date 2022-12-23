@@ -6,7 +6,7 @@ using namespace std;
 class NimGame
 {
 protected:
-	bool myTurn = 1;
+	bool myTurn = 0;
 	const int MAXMOVE = 3;
 public:
 	virtual bool isEnded() = 0;
