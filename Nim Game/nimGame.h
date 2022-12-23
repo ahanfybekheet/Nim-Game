@@ -6,15 +6,15 @@ using namespace std;
 class NimGame
 {
 protected:
-	bool myTurn = 0;
+	bool myTurn = 1;
 	const int MAXMOVE = 3;
 public:
 	virtual bool isEnded() = 0;
 	virtual void printGame() = 0;
 	virtual void playBestMove() = 0;
 	virtual bool minimax(bool isMaximizing) = 0;
-	bool isMyTrun();
-
+	virtual void printWinner() = 0;
+	bool isMyTurn();
 
 };
 
@@ -33,7 +33,7 @@ public:
 	void playBestMove();
 	bool minimax(bool isMaximizing);
 	void update(int move);
-	void set_hScore(int score);
+	void printWinner();
 
 };
 
@@ -41,7 +41,7 @@ public:
 class VariantTwo : public NimGame
 {
 private:
-	int Piles[3] = { 9,10,11 };
+	int Piles[3] = { 3,4,5 };
 public:
 	bool isEnded();
 	void printGame();
@@ -49,6 +49,7 @@ public:
 	void playBestMove();
 	bool minimax(bool isMaximizing);
 	void update(int pile, int move);
+	void printWinner();
 };
 
 

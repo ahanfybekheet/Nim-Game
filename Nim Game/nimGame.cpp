@@ -9,9 +9,9 @@ void GM::run()
 		cout << "Invalid Input Please Try Again later!..";
 		exit(0);
 	}
-	while (!(gm->isEnded())) {
+	while (!gm->isEnded()) {
 		gm->printGame();
-		if (gm->isMyTrun()) {
+		if (gm->isMyTurn()) {
 			gm->playBestMove();
 		}
 		else {
@@ -47,6 +47,8 @@ void GM::run()
 
 		}
 	}
+	gm->printGame();
+	gm->printWinner();
 	
 }
 
@@ -58,11 +60,9 @@ GM::~GM()
 
 bool VariantTwo::isEnded()
 {
-	for (int i = 0; i < 3; i++) {
-		if(Piles[i]!=0)
-			return false;
-	}
-	return true;
+	return (Piles[0] == 1 && Piles[1] == 0 && Piles[2] == 0) ||
+		   (Piles[1] == 1 && Piles[0] == 0 && Piles[2] == 0) ||
+		   (Piles[2] == 1 && Piles[1] == 0 && Piles[0] == 0);
 }
 
 string operator*(string str, int i)
@@ -164,8 +164,14 @@ bool VariantTwo::minimax(bool isMaximizing)
 void VariantTwo::update(int pile, int move)
 {
 	Piles[pile] -= move;
+	cout << "Player: " << ((myTurn) ? "Computer" : "Human") << " Take " << move << " From Pile Num " << pile << endl;
 	myTurn = !myTurn;
 
+}
+
+void VariantTwo::printWinner()
+{
+	cout << "The Winner is " << ((isMyTurn()) ? "Human" : "Computer");
 }
 
 VariantOne::VariantOne()
@@ -177,7 +183,7 @@ VariantOne::VariantOne()
 
 bool VariantOne::isEnded()
 {
-	return nCoins;
+	return !nCoins;
 }
 
 void VariantOne::printGame()
@@ -258,15 +264,27 @@ bool VariantOne::minimax(bool isMaximizing)
 void VariantOne::update(int move)
 {
 	nCoins -= move;
+	if (isMyTurn()) {
+		cScore += move;
+	}
+	else {
+		hScore += move;
+	}
+	cout << "Player: " << ((myTurn) ? "Computer" : "Human") << " Take " << move << endl;
+	cout << "Computer Score is: " << cScore << endl;
+	cout << "Human Score is: " << hScore << endl;
+
 	myTurn = !myTurn;
 }
 
-void VariantOne::set_hScore(int score)
+void VariantOne::printWinner()
 {
-	hScore = score;
+	cout << "The Winner Is " << ((cScore % 2 == 0) ? "Computer" : "Human");
 }
 
-bool NimGame::isMyTrun()
+
+
+bool NimGame::isMyTurn()
 {
 	return myTurn;
 }
